@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>blo pa/ — Pablo Vela · Creative Developer · Buenos Aires</title>
+  <meta name="description" content="Pablo Vela — Creative Developer especializado en diseño web, desarrollo frontend y música electrónica. Portfolio de proyectos desde Buenos Aires.">
+  <meta name="author" content="Pablo Vela">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://blopa.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="blo pa/ — Pablo Vela · Creative Developer">
+  <meta property="og:description" content="Diseño web, desarrollo frontend y música electrónica desde Buenos Aires.">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://blopa.dev/">
+  <meta property="og:image"       content="https://blopa.dev/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale"      content="es_AR">
+  <meta property="og:site_name"   content="blo pa/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="blo pa/ — Pablo Vela · Creative Developer">
+  <meta name="twitter:description" content="Diseño web, desarrollo frontend y música electrónica desde Buenos Aires.">
+  <meta name="twitter:image"       content="https://blopa.dev/assets/img/og-image.jpg">
+
+  <meta name="theme-color" content="#000000">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▸</text></svg>">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Fonts: preconnect + load (non-blocking) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+  </noscript>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Pablo Vela",
+    "url": "https://blopa.dev",
+    "jobTitle": "Creative Developer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "sameAs": [
+      "https://soundcloud.com/pablo-vela-899122377"
+    ],
+    "knowsAbout": ["Web Design", "Frontend Development", "UI/UX", "Electronic Music"]
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader" aria-hidden="true">
+    <div class="pre-center">
+      <span class="pre-logo">blo pa/</span>
+      <div class="pre-line"></div>
+      <span class="pre-sub">Creative Developer</span>
+    </div>
+  </div>
+
+  <!-- Interactive dot grid — full site background -->
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- Animated grain overlay -->
+  <div id="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor (hidden on touch) -->
+  <div id="c-dot"></div>
+  <div id="c-ring"></div>
+
+  <!-- Canvas — scan line FX on logo click -->
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- Section nav dots -->
+  <nav class="nav-dots" aria-label="Navegación de secciones">
+    <button class="nd on" data-s="0" aria-label="Home"></button>
+    <button class="nd"    data-s="1" aria-label="Web Design"></button>
+    <button class="nd"    data-s="2" aria-label="Music"></button>
+    <button class="nd"    data-s="3" aria-label="Contacto"></button>
+  </nav>
+
+  <!-- Scroll hint -->
+  <div id="s-hint" aria-hidden="true">
+    <span class="sh-t">scroll</span>
+    <div class="sh-l"></div>
+  </div>
+
+  <!-- Persistent footer -->
+  <footer id="ft" aria-hidden="true">
+    <span class="ft-l">blo pa/ — Pablo Vela</span>
+    <span class="ft-r">© 2026</span>
+  </footer>
+
+
+  <div id="scroll-wrap">
+
+
+    <!-- ══════════════════════════════════════════
+         S1 — HOME
+         ══════════════════════════════════════════ -->
+    <section id="s1" class="sec-in" aria-label="Home">
+
+      <div class="home-id" aria-hidden="true">Pablo Vela — 2026</div>
+
+      <div class="hero-text">
+
+        <!-- Running marquee -->
+        <div class="home-marquee" aria-hidden="true">
+          <div class="home-marquee-track">
+            <span>Web Design</span><span class="sep">·</span>
+            <span>Creative Dev</span><span class="sep">·</span>
+            <span>Music</span><span class="sep">·</span>
+            <span>UI / UX</span><span class="sep">·</span>
+            <span>Branding Web</span><span class="sep">·</span>
+            <span>Soundcloud</span><span class="sep">·</span>
+            <span>Web Design</span><span class="sep">·</span>
+            <span>Creative Dev</span><span class="sep">·</span>
+            <span>Music</span><span class="sep">·</span>
+            <span>UI / UX</span><span class="sep">·</span>
+            <span>Branding Web</span><span class="sep">·</span>
+            <span>Soundcloud</span><span class="sep">·</span>
+          </div>
+        </div>
+
+        <!-- Giant taglines -->
+        <div class="hero-line">
+          <span class="hero-line-inner" id="hl1">Web Design</span>
+        </div>
+        <div class="hero-line dim">
+          <span class="hero-line-inner" id="hl2">&amp; Music</span>
+        </div>
+
+        <!-- Logo + blinking underscore -->
+        <div style="display:flex; align-items:baseline; margin-top:clamp(16px,2.5vw,32px);">
+          <div class="logo-wrap">
+            <h1 id="logo">blo pa/</h1>
+            <span class="cursor-blink" aria-hidden="true">_</span>
+          </div>
+        </div>
+
+        <!-- Identity tagline -->
+        <div class="home-role">
+          <div class="home-role-line" aria-hidden="true"></div>
+          <span class="home-role-text">Creative Developer — Buenos Aires</span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         S2 — WEB DESIGN
+         ══════════════════════════════════════════ -->
+    <section id="s2" aria-label="Web Design">
+
+      <div class="sec-head">
+        <h2 class="sec-title">Web Design</h2>
+        <p class="sec-sub">5 proyectos seleccionados · 2023–2026</p>
+      </div>
+
+      <div class="proj-list">
+
+        <div class="proj-list-head" aria-hidden="true">
+          <span>Proyecto</span>
+          <span>Tipo</span>
+        </div>
+
+        <!-- Proyecto 01 -->
+        <div class="pl-item" data-num="01">
+          <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
+            <span class="pl-num">01</span>
+            <span class="pl-name">Estudio Lunar</span>
+            <span class="pl-type">Landing page</span>
+            <span class="pl-toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="pl-detail">
+            <div class="pl-detail-inner">
+              <div class="pl-detail-content">
+                <div class="pl-detail-img">
+                  <img src="https://images.unsplash.com/photo-1545670723-196ed0954986?w=800&q=80"
+                       alt="Estudio Lunar preview" loading="lazy">
+                </div>
+                <div class="pl-detail-info">
+                  <p class="pl-desc">Landing page para estudio de diseño con scroll narrativo y micro-animaciones.</p>
+                  <span class="pl-stack">Next.js · Framer Motion · Figma</span>
+                  <a href="#" class="pl-link" target="_blank" rel="noopener noreferrer">Ver proyecto <span>→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 02 -->
+        <div class="pl-item" data-num="02">
+          <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
+            <span class="pl-num">02</span>
+            <span class="pl-name">Forma Estudio</span>
+            <span class="pl-type">Branding web</span>
+            <span class="pl-toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="pl-detail">
+            <div class="pl-detail-inner">
+              <div class="pl-detail-content">
+                <div class="pl-detail-img">
+                  <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80"
+                       alt="Forma Estudio preview" loading="lazy">
+                </div>
+                <div class="pl-detail-info">
+                  <p class="pl-desc">Identidad visual y sitio web para estudio de diseño gráfico.</p>
+                  <span class="pl-stack">Astro · Tailwind · Branding</span>
+                  <a href="#" class="pl-link" target="_blank" rel="noopener noreferrer">Ver proyecto <span>→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 03 -->
+        <div class="pl-item" data-num="03">
+          <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
+            <span class="pl-num">03</span>
+            <span class="pl-name">Arco Digital</span>
+            <span class="pl-type">Portfolio</span>
+            <span class="pl-toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="pl-detail">
+            <div class="pl-detail-inner">
+              <div class="pl-detail-content">
+                <div class="pl-detail-img">
+                  <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&q=80"
+                       alt="Arco Digital preview" loading="lazy">
+                </div>
+                <div class="pl-detail-info">
+                  <p class="pl-desc">Portfolio minimalista con sistema de grilla adaptativo.</p>
+                  <span class="pl-stack">React · GSAP · CSS Grid</span>
+                  <a href="#" class="pl-link" target="_blank" rel="noopener noreferrer">Ver proyecto <span>→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 04 -->
+        <div class="pl-item" data-num="04">
+          <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
+            <span class="pl-num">04</span>
+            <span class="pl-name">Nodo Sur</span>
+            <span class="pl-type">E-commerce</span>
+            <span class="pl-toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="pl-detail">
+            <div class="pl-detail-inner">
+              <div class="pl-detail-content">
+                <div class="pl-detail-img">
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+                       alt="Nodo Sur preview" loading="lazy">
+                </div>
+                <div class="pl-detail-info">
+                  <p class="pl-desc">Tienda online con experiencia de compra fluida y gestión de catálogo.</p>
+                  <span class="pl-stack">Next.js · Stripe · Sanity</span>
+                  <a href="#" class="pl-link" target="_blank" rel="noopener noreferrer">Ver proyecto <span>→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 05 -->
+        <div class="pl-item" data-num="05">
+          <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
+            <span class="pl-num">05</span>
+            <span class="pl-name">Vértice</span>
+            <span class="pl-type">Dashboard</span>
+            <span class="pl-toggle" aria-hidden="true">+</span>
+          </div>
+          <div class="pl-detail">
+            <div class="pl-detail-inner">
+              <div class="pl-detail-content">
+                <div class="pl-detail-img">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+                       alt="Vértice preview" loading="lazy">
+                </div>
+                <div class="pl-detail-info">
+                  <p class="pl-desc">Panel de analytics con visualización de datos en tiempo real.</p>
+                  <span class="pl-stack">React · D3.js · Dashboard</span>
+                  <a href="#" class="pl-link" target="_blank" rel="noopener noreferrer">Ver proyecto <span>→</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         S3 — MUSIC
+         ══════════════════════════════════════════ -->
+    <section id="s3" aria-label="Music">
+
+      <div class="gen-field" aria-hidden="true">
+        <div class="gen-row">
+          <div class="gen-row-inner">
+            <span>Techno</span><span>·</span><span>Trip-Hop</span><span>·</span>
+            <span>Drum &amp; Bass</span><span>·</span><span>House</span><span>·</span>
+            <span>Techno</span><span>·</span><span>Trip-Hop</span><span>·</span>
+            <span>Drum &amp; Bass</span><span>·</span><span>House</span><span>·</span>
+          </div>
+        </div>
+        <div class="gen-row">
+          <div class="gen-row-inner">
+            <span>Progressive House</span><span>—</span><span>Ambient</span><span>—</span>
+            <span>UK Garage</span><span>—</span><span>Deep House</span><span>—</span>
+            <span>Progressive House</span><span>—</span><span>Ambient</span><span>—</span>
+            <span>UK Garage</span><span>—</span><span>Deep House</span><span>—</span>
+          </div>
+        </div>
+        <div class="gen-row">
+          <div class="gen-row-inner">
+            <span>Tech House</span><span>·</span><span>Dubstep</span><span>·</span>
+            <span>House</span><span>·</span><span>Techno</span><span>·</span>
+            <span>Tech House</span><span>·</span><span>Dubstep</span><span>·</span>
+            <span>House</span><span>·</span><span>Techno</span><span>·</span>
+          </div>
+        </div>
+        <div class="gen-row">
+          <div class="gen-row-inner">
+            <span>Break Beats</span><span>/</span><span>Minimal</span><span>/</span>
+            <span>Afro House</span><span>/</span><span>Break Beats</span><span>/</span>
+            <span>Minimal</span><span>/</span><span>Afro House</span><span>/</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mu-body">
+        <h2 class="mu-title">Music</h2>
+        <div class="mu-sc-block">
+          <div class="mu-sc-left">
+            <div class="mu-stats">
+              <div class="mu-stat">
+                <span class="mu-stat-num">15+</span>
+                <span class="mu-stat-label">Sets &amp; Mixes</span>
+              </div>
+              <div class="mu-stat-div" aria-hidden="true"></div>
+              <div class="mu-stat">
+                <span class="mu-stat-num">3h+</span>
+                <span class="mu-stat-label">De contenido</span>
+              </div>
+            </div>
+          </div>
+          <div class="mu-sc-right">
+            <a href="https://soundcloud.com/pablo-vela-899122377"
+               target="_blank" rel="noopener noreferrer" class="mu-cta">
+              Escuchar en Soundcloud <span class="mu-arr" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="wavef" id="wavef" aria-hidden="true"></div>
+
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         S4 — CONTACTO
+         ══════════════════════════════════════════ -->
+    <section id="s4" aria-label="Contacto">
+
+      <div class="sec-head">
+        <h2 class="sec-title">Contacto</h2>
+      </div>
+
+      <div class="ct-body">
+        <p class="ct-pre">hablemos</p>
+        <a href="mailto:blopave@proton.me" class="em-link" id="em-link">
+          blopave@proton.me
+        </a>
+        <div class="avail">
+          <div class="av-dot" aria-hidden="true"></div>
+          disponible para proyectos
+        </div>
+        <button class="ct-back" id="ct-back" aria-label="Volver al inicio">
+          <span class="ct-back-arr" aria-hidden="true">↑</span>
+          volver al inicio
+        </button>
+        <div class="ct-rule" aria-hidden="true"></div>
+        <div class="ct-footer">
+          <div class="ct-footer-left">
+            <span class="ct-sig">Pablo Vela</span>
+            <p class="ct-manifesto">Diseño que comunica · Código que vive · Música que mueve</p>
+            <div class="ct-meta">
+              <a href="https://soundcloud.com/pablo-vela-899122377"
+                 target="_blank" rel="noopener noreferrer" class="ct-a">Soundcloud ↗</a>
+              <a href="mailto:blopave@proton.me" class="ct-a">Email ↗</a>
+            </div>
+          </div>
+          <span class="ct-year" aria-hidden="true">2026</span>
+        </div>
+      </div>
+    </section>
+
+
+  </div><!-- /scroll-wrap -->
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>
