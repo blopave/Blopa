@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — blo pa/</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▸</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400&display=swap">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #888;
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .code {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 20vw, 14rem);
+      color: #fff;
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .msg {
+      font-size: .75rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #555;
+    }
+    .back {
+      margin-top: 28px;
+      color: #888;
+      font-size: .75rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid #333;
+      padding: 12px 28px;
+      transition: border-color .3s, color .3s;
+    }
+    .back:hover { border-color: #fff; color: #fff; }
+  </style>
+</head>
+<body>
+  <span class="code">404</span>
+  <p class="msg">Esta pagina no existe</p>
+  <a href="/" class="back">Volver al inicio</a>
+</body>
+</html>

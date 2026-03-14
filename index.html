@@ -91,7 +91,22 @@
 
   <!-- Custom cursor (hidden on touch) -->
   <div id="c-dot"></div>
-  <div id="c-ring"></div>
+  <div id="c-ring"><span id="c-label"></span></div>
+
+  <!-- Floating project preview (follows cursor) -->
+  <div id="proj-preview" aria-hidden="true">
+    <img id="proj-preview-img" src="" alt="">
+  </div>
+
+  <!-- Progress bar -->
+  <div id="progress-bar" aria-hidden="true"></div>
+
+  <!-- Live clock -->
+  <div id="live-clock" aria-hidden="true">
+    <span class="clock-city">Buenos Aires</span>
+    <span class="clock-sep">—</span>
+    <span class="clock-time" id="clock-time"></span>
+  </div>
 
   <!-- Canvas — scan line FX on logo click -->
   <canvas id="fx-canvas" aria-hidden="true"></canvas>
@@ -191,7 +206,7 @@
         </div>
 
         <!-- Proyecto 01 -->
-        <div class="pl-item" data-num="01">
+        <div class="pl-item" data-num="01" data-img="https://images.unsplash.com/photo-1545670723-196ed0954986?w=800&q=80">
           <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
             <span class="pl-num">01</span>
             <span class="pl-name">Estudio Lunar</span>
@@ -216,7 +231,7 @@
         </div>
 
         <!-- Proyecto 02 -->
-        <div class="pl-item" data-num="02">
+        <div class="pl-item" data-num="02" data-img="https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80">
           <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
             <span class="pl-num">02</span>
             <span class="pl-name">Forma Estudio</span>
@@ -241,7 +256,7 @@
         </div>
 
         <!-- Proyecto 03 -->
-        <div class="pl-item" data-num="03">
+        <div class="pl-item" data-num="03" data-img="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&q=80">
           <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
             <span class="pl-num">03</span>
             <span class="pl-name">Arco Digital</span>
@@ -266,7 +281,7 @@
         </div>
 
         <!-- Proyecto 04 -->
-        <div class="pl-item" data-num="04">
+        <div class="pl-item" data-num="04" data-img="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80">
           <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
             <span class="pl-num">04</span>
             <span class="pl-name">Nodo Sur</span>
@@ -291,7 +306,7 @@
         </div>
 
         <!-- Proyecto 05 -->
-        <div class="pl-item" data-num="05">
+        <div class="pl-item" data-num="05" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80">
           <div class="pl-row" role="button" tabindex="0" aria-expanded="false">
             <span class="pl-num">05</span>
             <span class="pl-name">Vértice</span>

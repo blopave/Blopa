@@ -16,7 +16,7 @@
   --dim:           #555555;
   --dim2:          #282828;
   --black:         #000000;
-  --accent:        #22d3ee;
+  --accent:        rgba(255,255,255,.6);
   --pad:           52px;
   --font-display:  'Bebas Neue', sans-serif;
   --font-body:     'Inter', sans-serif;
@@ -97,7 +97,7 @@ a, button, [role="button"] {
 
 .pre-sub {
   font-family: var(--font-mono);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   color: var(--dim);
@@ -335,7 +335,7 @@ section:not(#s4)::after {
 
 .sh-t {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
 }
@@ -381,7 +381,7 @@ section:not(#s4)::after {
 
 .ft-l, .ft-r {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .1em;
   font-weight: 300;
 }
@@ -441,7 +441,7 @@ section:not(#s4)::after {
 
 .sec-sub {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -478,7 +478,7 @@ section:not(#s4)::after {
   right: var(--pad);
   z-index: 20;
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -667,7 +667,7 @@ section:not(#s4)::after {
 }
 
 .home-marquee-track span {
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--dim);
@@ -706,7 +706,7 @@ section:not(#s4)::after {
 
 .home-role-text {
   color: var(--mid);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -745,7 +745,7 @@ section:not(#s4)::after {
 
 .proj-list-head span {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -796,7 +796,7 @@ section:not(#s4)::after {
 
 .pl-num {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .12em;
   font-family: var(--font-mono);
   flex-shrink: 0;
@@ -841,7 +841,7 @@ section:not(#s4)::after {
 
 .pl-type {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   flex-shrink: 0;
@@ -940,7 +940,7 @@ section:not(#s4)::after {
 
 .pl-stack {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -951,7 +951,7 @@ section:not(#s4)::after {
   align-items: center;
   gap: 8px;
   color: var(--accent);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1132,7 +1132,7 @@ section:not(#s4)::after {
 
 .mu-stat-label {
   color: var(--mid);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -1156,7 +1156,7 @@ section:not(#s4)::after {
   background: transparent;
   border: 1px solid var(--dim);
   text-decoration: none;
-  font-size: .65rem;
+  font-size: .75rem;
   font-weight: 500;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -1232,7 +1232,7 @@ section:not(#s4)::after {
   align-items: center;
   gap: 12px;
   color: var(--mid);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .18em;
   text-transform: uppercase;
   margin-bottom: 18px;
@@ -1287,7 +1287,7 @@ section:not(#s4)::after {
   gap: 9px;
   margin-top: 22px;
   color: var(--mid);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
 }
@@ -1302,8 +1302,8 @@ section:not(#s4)::after {
 }
 
 @keyframes gpulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,.4); }
-  50%      { box-shadow: 0 0 0 6px rgba(34,211,238,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,.3); }
+  50%      { box-shadow: 0 0 0 6px rgba(255,255,255,0); }
 }
 
 .ct-back {
@@ -1312,7 +1312,7 @@ section:not(#s4)::after {
   gap: 8px;
   margin-top: clamp(28px, 4vh, 48px);
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -1372,7 +1372,7 @@ section:not(#s4)::after {
 
 .ct-manifesto {
   color: var(--dim);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -1390,7 +1390,7 @@ section:not(#s4)::after {
 
 .ct-a {
   color: var(--mid);
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1422,6 +1422,124 @@ section:not(#s4)::after {
 
 
 /* ─────────────────────────────────────────────────
+   CURSOR LABEL (text inside ring)
+───────────────────────────────────────────────── */
+
+#c-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: .6rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity .25s ease;
+}
+
+body.is-proj #c-label { opacity: 1; }
+
+
+/* ─────────────────────────────────────────────────
+   FLOATING PROJECT PREVIEW
+───────────────────────────────────────────────── */
+
+#proj-preview {
+  position: fixed;
+  width: 280px;
+  aspect-ratio: 16 / 10;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.92);
+  transition: opacity .35s var(--ease-smooth),
+              transform .35s var(--ease-smooth);
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+#proj-preview.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#proj-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(40%) brightness(.65);
+}
+
+
+/* ─────────────────────────────────────────────────
+   PROGRESS BAR
+───────────────────────────────────────────────── */
+
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  z-index: 9500;
+  transition: width .6s var(--ease-smooth), background .6s ease;
+  opacity: .6;
+}
+
+
+/* ─────────────────────────────────────────────────
+   LIVE CLOCK
+───────────────────────────────────────────────── */
+
+#live-clock {
+  position: fixed;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity .5s ease .5s;
+}
+
+.loaded #live-clock { opacity: 1; }
+
+.clock-city,
+.clock-time {
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  color: var(--dim);
+}
+
+.clock-sep {
+  color: var(--dim2);
+  font-size: .7rem;
+}
+
+.clock-time {
+  color: var(--mid);
+  font-variant-numeric: tabular-nums;
+}
+
+
+
+/* ─────────────────────────────────────────────────
+   HERO PARALLAX (transforms applied via JS)
+───────────────────────────────────────────────── */
+
+.hero-line-inner {
+  will-change: transform;
+}
+
+
+/* ─────────────────────────────────────────────────
    RESPONSIVE — mobile
 ───────────────────────────────────────────────── */
 
@@ -1431,6 +1549,8 @@ section:not(#s4)::after {
   body { cursor: auto; }
   #c-dot, #c-ring { display: none; }
   #hero-canvas { display: none; }
+  #proj-preview { display: none; }
+  #live-clock { top: auto; bottom: 10px; left: 22px; transform: none; }
 
   .sec-title        { font-size: clamp(2rem, 8vw, 3rem); }
   .hero-line-inner  { font-size: clamp(3.5rem, 13vw, 6rem); }
@@ -1443,7 +1563,7 @@ section:not(#s4)::after {
   .mu-sc-block      { flex-direction: column; gap: 20px; align-items: flex-start; }
   .mu-cta           { width: 100%; justify-content: center; }
   .ct-footer        { flex-direction: column; gap: 16px; }
-  .home-role-text   { font-size: .6rem; }
+  .home-role-text   { font-size: .7rem; }
 
   .pl-detail-content {
     flex-direction: column;

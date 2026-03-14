@@ -58,11 +58,13 @@ if (isRepeatVisit) {
    CUSTOM CURSOR  (desktop only)
 ───────────────────────────────────────────────── */
 
+let mx = -200, my = -200;
+
 if (!isTouch) {
   const cDot  = $('c-dot');
   const cRing = $('c-ring');
+  const cLabel = $('c-label');
 
-  let mx = -200, my = -200;
   let rx = -200, ry = -200;
 
   document.addEventListener('mousemove', e => {
@@ -86,8 +88,13 @@ if (!isTouch) {
   });
 
   $$('.pl-row').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('is-proj'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('is-proj'));
+    el.addEventListener('mouseenter', () => {
+      document.body.classList.add('is-proj');
+      cLabel.textContent = 'Ver';
+    });
+    el.addEventListener('mouseleave', () => {
+      document.body.classList.remove('is-proj');
+    });
   });
 }
 
@@ -190,6 +197,9 @@ const sections = Array.from($$('section'));
 const navDots  = $$('.nd');
 const footer   = $('ft');
 const hint     = $('s-hint');
+const progressBar = $('progress-bar');
+
+const ACCENT = '#34d399';
 
 let currentIdx   = 0;
 let scrollLocked = false;
@@ -203,6 +213,10 @@ function activateSection(idx) {
   footer.classList.toggle('show', idx > 0);
   hint.classList.toggle('gone', idx > 0);
   currentIdx = idx;
+
+  /* Update progress bar */
+  const pct = ((idx + 1) / sections.length) * 100;
+  progressBar.style.width = pct + '%';
 }
 
 function goTo(idx) {
@@ -292,6 +306,44 @@ $$('.pl-row').forEach(row => {
 });
 
 
+/* ─────────────────────────────────────────────────
+   FLOATING PROJECT PREVIEW  — follows cursor on hover
+   (desktop only)
+───────────────────────────────────────────────── */
+
+if (!isTouch) {
+  const preview    = $('proj-preview');
+  const previewImg = $('proj-preview-img');
+  let prevX = -200, prevY = -200;
+  let previewActive = false;
+
+  $$('.pl-row').forEach(row => {
+    const item = row.closest('.pl-item');
+    const imgSrc = item.dataset.img;
+
+    row.addEventListener('mouseenter', () => {
+      if (!imgSrc) return;
+      previewImg.src = imgSrc;
+      previewActive = true;
+      preview.classList.add('active');
+    });
+
+    row.addEventListener('mouseleave', () => {
+      previewActive = false;
+      preview.classList.remove('active');
+    });
+  });
+
+  (function animPreview() {
+    if (previewActive && pageVisible) {
+      prevX += (mx - prevX) * 0.08;
+      prevY += (my - prevY) * 0.08;
+      preview.style.left = prevX + 'px';
+      preview.style.top  = (prevY - 140) + 'px';
+    }
+    requestAnimationFrame(animPreview);
+  })();
+}
 
 
 /* ─────────────────────────────────────────────────
@@ -371,6 +423,8 @@ if (!isTouch) {
     heroMY = e.clientY;
   });
 
+  const ACCENT_RGB = { r: 255, g: 255, b: 255 };
+
   function drawHero() {
     if (!pageVisible) {
       requestAnimationFrame(drawHero);
@@ -417,7 +471,8 @@ if (!isTouch) {
       hCtx.fillRect(d.x - radius * 0.5, d.y - radius * 0.5, radius, radius);
     }
 
-    /* Connection lines — accent cyan */
+    /* Connection lines — accent color */
+    const accent = ACCENT_RGB;
     const maxConn = GRID * 1.6;
     for (let i = 0; i < glowing.length; i++) {
       for (let j = i + 1; j < glowing.length; j++) {
@@ -431,7 +486,7 @@ if (!isTouch) {
           hCtx.beginPath();
           hCtx.moveTo(a.x, a.y);
           hCtx.lineTo(b.x, b.y);
-          hCtx.strokeStyle = `rgba(34,211,238,${lineAlpha})`;
+          hCtx.strokeStyle = `rgba(${accent.r},${accent.g},${accent.b},${lineAlpha})`;
           hCtx.lineWidth = 0.5;
           hCtx.stroke();
         }
@@ -489,5 +544,47 @@ if (!isTouch) {
     btn.addEventListener('mouseenter', () => {
       btn.style.transition = '';
     });
+  });
+}
+
+
+/* ─────────────────────────────────────────────────
+   LIVE CLOCK  — Buenos Aires time
+───────────────────────────────────────────────── */
+
+const clockTimeEl = $('clock-time');
+
+function updateClock() {
+  const now = new Date();
+  const ba = now.toLocaleTimeString('es-AR', {
+    timeZone: 'America/Argentina/Buenos_Aires',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+  clockTimeEl.textContent = ba;
+}
+
+updateClock();
+setInterval(updateClock, 10000);
+
+
+/* ─────────────────────────────────────────────────
+   HERO PARALLAX  — subtle mouse-driven depth
+   (desktop only)
+───────────────────────────────────────────────── */
+
+if (!isTouch) {
+  const hl1 = $('hl1');
+  const hl2 = $('hl2');
+
+  document.addEventListener('mousemove', e => {
+    if (currentIdx !== 0) return;
+
+    const cx = (e.clientX / innerWidth  - 0.5) * 2;
+    const cy = (e.clientY / innerHeight - 0.5) * 2;
+
+    if (hl1) hl1.style.transform = `translateY(0) translate(${cx * -8}px, ${cy * -4}px)`;
+    if (hl2) hl2.style.transform = `translateY(0) translate(${cx * -14}px, ${cy * -6}px)`;
   });
 }
