@@ -4,8 +4,8 @@
   "description": "Pablo Vela — Creative Developer. Diseno web y musica electronica desde Buenos Aires.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#121212",
+  "theme_color": "#121212",
   "icons": [
     {
       "src": "assets/img/icon-192.png",
