@@ -103,6 +103,21 @@ body.loaded [role="button"] {
 
 
 /* ─────────────────────────────────────────────────
+   HERO CANVAS — dot grid
+───────────────────────────────────────────────── */
+
+#hero-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+
+/* ─────────────────────────────────────────────────
    SCROLL CONTAINER
 ───────────────────────────────────────────────── */
 
@@ -460,6 +475,16 @@ section {
   z-index: 10;
 }
 
+.ct-name {
+  display: block;
+  color: var(--dim);
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
 .em-link {
   display: block;
   color: var(--white);
@@ -563,6 +588,7 @@ section {
   .hero-role, .hero-location { font-size: .6rem; }
 
   #grain { opacity: 0.04; }
+  #hero-canvas { display: none; }
 
   .proj-card:active .proj-card-name { color: var(--off); }
   .em-link:active { color: var(--off); }
@@ -649,6 +675,7 @@ img.is-loaded {
   }
 
   #grain { display: none !important; }
+  #hero-canvas { display: none !important; }
 
   img[loading="lazy"] {
     opacity: 1;

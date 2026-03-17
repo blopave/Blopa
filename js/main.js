@@ -18,6 +18,71 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 
 /* ─────────────────────────────────────────────────
+   HERO CANVAS — dot grid with mouse interaction
+───────────────────────────────────────────────── */
+
+const heroCanvas = $('hero-canvas');
+
+if (heroCanvas && !isTouch && !prefersReducedMotion) {
+  const ctx = heroCanvas.getContext('2d');
+  const DOT_GAP   = 32;
+  const DOT_R     = 0.6;
+  const BASE_A    = 0.06;
+  const M_RADIUS  = 140;
+  const M_GLOW    = 0.3;
+
+  let cW, cH, cols, rows;
+  let canvasMx = -9999, canvasMy = -9999;
+
+  function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cW = window.innerWidth;
+    cH = window.innerHeight;
+    heroCanvas.width = cW * dpr;
+    heroCanvas.height = cH * dpr;
+    heroCanvas.style.width = cW + 'px';
+    heroCanvas.style.height = cH + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(cW / DOT_GAP) + 1;
+    rows = Math.ceil(cH / DOT_GAP) + 1;
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  document.addEventListener('mousemove', e => {
+    canvasMx = e.clientX;
+    canvasMy = e.clientY;
+  });
+
+  (function drawDots() {
+    if (pageVisible) {
+      ctx.clearRect(0, 0, cW, cH);
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = c * DOT_GAP;
+          const y = r * DOT_GAP;
+          const dx = x - canvasMx;
+          const dy = y - canvasMy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const glow = dist < M_RADIUS ? (1 - dist / M_RADIUS) * M_GLOW : 0;
+          const alpha = BASE_A + glow;
+
+          ctx.beginPath();
+          ctx.arc(x, y, DOT_R + glow * 1, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx.fill();
+        }
+      }
+    }
+    requestAnimationFrame(drawDots);
+  })();
+} else if (heroCanvas) {
+  heroCanvas.style.display = 'none';
+}
+
+
+/* ─────────────────────────────────────────────────
    INSTANT LOAD — no preloader, immediate reveal
 ───────────────────────────────────────────────── */
 
