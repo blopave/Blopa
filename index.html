@@ -79,11 +79,13 @@
 
   <!-- Custom cursor (hidden on touch) -->
   <div id="c-dot"></div>
-  <div id="c-ring"><span class="c-label">Ver</span></div>
+  <div id="c-ring"></div>
 
-
-  <!-- Hero canvas — dot grid -->
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <nav id="nav-dots" aria-label="Page navigation">
+    <a class="nav-dot active" href="#hero" data-section="hero"><span class="sr-only">Home</span></a>
+    <a class="nav-dot" href="#work" data-section="work"><span class="sr-only">Work</span></a>
+    <a class="nav-dot" href="#contacto" data-section="contacto"><span class="sr-only">Contacto</span></a>
+  </nav>
 
   <main id="scroll-wrap">
 
@@ -102,7 +104,7 @@
 
       <div class="hero-bottom">
         <span class="hero-role">Creative Developer</span>
-        <span class="hero-location">Buenos Aires</span>
+        <span class="hero-location">Buenos Aires — <span id="hero-clock"></span></span>
       </div>
 
     </section>
@@ -112,6 +114,10 @@
          WORK
          ══════════════════════════════════════════ -->
     <section id="work" aria-label="Work">
+      <div class="work-header reveal">
+        <span class="work-label">Selected Work</span>
+        <span class="work-count">05</span>
+      </div>
       <div class="proj-flow">
 
         <a class="proj-card proj-card--1 reveal" href="projects/pulz.html">
@@ -154,6 +160,16 @@
           </div>
         </a>
 
+        <a class="proj-card proj-card--5 reveal" href="projects/yaricasanova.html">
+          <div class="proj-card-img" data-speed="0.05">
+            <img src="assets/img/projects/yaricasanova.jpg" alt="Yari Casanova" width="1440" height="900" loading="lazy">
+          </div>
+          <div class="proj-card-meta" data-speed="-0.065">
+            <h3 class="proj-card-name">Yari Casanova</h3>
+            <span class="proj-card-type">Portfolio de Artista · 2026</span>
+          </div>
+        </a>
+
       </div>
     </section>
 
@@ -163,10 +179,11 @@
          ══════════════════════════════════════════ -->
     <section id="contacto" aria-label="Contacto">
       <div class="ct-body reveal">
-        <span class="ct-name">Pablo Vela</span>
+        <span class="ct-label">Contacto</span>
         <a href="mailto:blopave@proton.me" class="em-link" id="em-link">
           blopave@proton.me
         </a>
+        <span class="ct-name">Pablo Vela</span>
       </div>
       <footer class="ct-footer reveal">
         <span class="ft-copy">© 2026 blo pa/</span>

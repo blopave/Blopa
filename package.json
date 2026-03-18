@@ -1,0 +1,23 @@
+{
+  "name": "blopa",
+  "version": "1.0.0",
+  "description": "Sitio web personal de Pablo Vela — Creative Developer. Diseño web y música electrónica desde Buenos Aires.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blopave/Blopa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blopave/Blopa/issues"
+  },
+  "homepage": "https://github.com/blopave/Blopa#readme",
+  "dependencies": {
+    "puppeteer": "^24.39.1"
+  }
+}

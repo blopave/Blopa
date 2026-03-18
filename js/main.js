@@ -18,71 +18,6 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 
 /* ─────────────────────────────────────────────────
-   HERO CANVAS — dot grid with mouse interaction
-───────────────────────────────────────────────── */
-
-const heroCanvas = $('hero-canvas');
-
-if (heroCanvas && !isTouch && !prefersReducedMotion) {
-  const ctx = heroCanvas.getContext('2d');
-  const DOT_GAP   = 32;
-  const DOT_R     = 0.6;
-  const BASE_A    = 0.06;
-  const M_RADIUS  = 140;
-  const M_GLOW    = 0.3;
-
-  let cW, cH, cols, rows;
-  let canvasMx = -9999, canvasMy = -9999;
-
-  function resizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    cW = window.innerWidth;
-    cH = window.innerHeight;
-    heroCanvas.width = cW * dpr;
-    heroCanvas.height = cH * dpr;
-    heroCanvas.style.width = cW + 'px';
-    heroCanvas.style.height = cH + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cols = Math.ceil(cW / DOT_GAP) + 1;
-    rows = Math.ceil(cH / DOT_GAP) + 1;
-  }
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  document.addEventListener('mousemove', e => {
-    canvasMx = e.clientX;
-    canvasMy = e.clientY;
-  });
-
-  (function drawDots() {
-    if (pageVisible) {
-      ctx.clearRect(0, 0, cW, cH);
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const x = c * DOT_GAP;
-          const y = r * DOT_GAP;
-          const dx = x - canvasMx;
-          const dy = y - canvasMy;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const glow = dist < M_RADIUS ? (1 - dist / M_RADIUS) * M_GLOW : 0;
-          const alpha = BASE_A + glow;
-
-          ctx.beginPath();
-          ctx.arc(x, y, DOT_R + glow * 1, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-          ctx.fill();
-        }
-      }
-    }
-    requestAnimationFrame(drawDots);
-  })();
-} else if (heroCanvas) {
-  heroCanvas.style.display = 'none';
-}
-
-
-/* ─────────────────────────────────────────────────
    INSTANT LOAD — no preloader, immediate reveal
 ───────────────────────────────────────────────── */
 
@@ -166,8 +101,8 @@ if (!isTouch) {
 
   (function animRing() {
     if (pageVisible) {
-      rx += (mx - rx) * 0.15;
-      ry += (my - ry) * 0.15;
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
       cRing.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
     }
     requestAnimationFrame(animRing);
@@ -176,16 +111,6 @@ if (!isTouch) {
   $$('a, button').forEach(el => {
     el.addEventListener('mouseenter', () => document.body.classList.add('is-link'));
     el.addEventListener('mouseleave', () => document.body.classList.remove('is-link'));
-  });
-
-  $$('.proj-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      document.body.classList.add('is-proj');
-      document.body.classList.remove('is-link');
-    });
-    el.addEventListener('mouseleave', () => {
-      document.body.classList.remove('is-proj');
-    });
   });
 
   let scrollRingTimer = null;
@@ -229,46 +154,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 });
 
 $$('.reveal').forEach(el => revealObserver.observe(el));
-
-
-/* ─────────────────────────────────────────────────
-   3D TILT + SHINE — project cards
-───────────────────────────────────────────────── */
-
-if (!isTouch && !prefersReducedMotion) {
-  $$('.proj-card').forEach(card => {
-    const imgWrap = card.querySelector('.proj-card-img');
-    const meta    = card.querySelector('.proj-card-meta');
-
-    const shine = document.createElement('div');
-    shine.className = 'proj-card-shine';
-    imgWrap.appendChild(shine);
-
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-
-      const imgRect = imgWrap.getBoundingClientRect();
-      const ix = (e.clientX - imgRect.left) / imgRect.width;
-      const iy = (e.clientY - imgRect.top) / imgRect.height;
-      const rotY = (ix - 0.5) * 16;
-      const rotX = (iy - 0.5) * -12;
-      imgWrap.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
-      imgWrap.style.setProperty('--mx', (ix * 100) + '%');
-      imgWrap.style.setProperty('--my', (iy * 100) + '%');
-
-      const pushX = (x - 0.5) * 20;
-      const pushY = (y - 0.5) * 12;
-      meta.style.transform = `translate(${pushX}px, ${pushY}px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      imgWrap.style.transform = '';
-      meta.style.transform = '';
-    });
-  });
-}
 
 
 /* ─────────────────────────────────────────────────
@@ -334,28 +219,6 @@ if (emLink) {
 
 
 /* ─────────────────────────────────────────────────
-   HERO PARALLAX — mouse-driven depth
-───────────────────────────────────────────────── */
-
-if (!isTouch && !prefersReducedMotion) {
-  const heroLogo = $('logo');
-  const heroSection = document.querySelector('.hero-section');
-
-  document.addEventListener('mousemove', e => {
-    if (!heroLogo) return;
-
-    const rect = heroSection.getBoundingClientRect();
-    if (rect.bottom < 0) return;
-
-    const cx = (e.clientX / innerWidth  - 0.5) * 2;
-    const cy = (e.clientY / innerHeight - 0.5) * 2;
-
-    heroLogo.style.transform = `translateY(0) translate(${cx * -10}px, ${cy * -5}px)`;
-  });
-}
-
-
-/* ─────────────────────────────────────────────────
    PAGE TRANSITIONS
 ───────────────────────────────────────────────── */
 
@@ -388,4 +251,64 @@ if (window.location.hash === '#work') {
       history.replaceState(null, '', window.location.pathname);
     });
   }
+}
+
+
+/* ─────────────────────────────────────────────────
+   NAV DOTS — scroll tracking + click navigation
+───────────────────────────────────────────────── */
+
+if (!isTouch) {
+  const navDots = $$('.nav-dot');
+  const sections = ['hero', 'work', 'contacto'].map(id => $(id)).filter(Boolean);
+
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navDots.forEach(dot => {
+          dot.classList.toggle('active', dot.dataset.section === id);
+        });
+      }
+    });
+  }, {
+    rootMargin: '-40% 0px -40% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(section => dotObserver.observe(section));
+
+  navDots.forEach(dot => {
+    dot.addEventListener('click', e => {
+      e.preventDefault();
+      const target = $(dot.dataset.section);
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth' });
+      if (smoothEnabled) {
+        setTimeout(() => {
+          targetY = window.scrollY;
+        }, 50);
+      }
+    });
+  });
+}
+
+
+/* ─────────────────────────────────────────────────
+   HERO CLOCK — Buenos Aires time
+───────────────────────────────────────────────── */
+
+const heroClock = $('hero-clock');
+if (heroClock) {
+  function updateClock() {
+    const now = new Date().toLocaleTimeString('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+    heroClock.textContent = now;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
 }
