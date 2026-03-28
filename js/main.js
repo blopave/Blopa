@@ -23,104 +23,127 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 document.body.classList.add('loaded');
 
-const logo = $('logo');
-if (logo) {
-  logo.style.transition = 'transform 1.1s cubic-bezier(.77,0,.18,1) 0.1s';
-  logo.style.transform = 'translateY(0)';
-}
+// Page enter animation
+document.body.classList.add('page-entering');
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    document.body.classList.remove('page-entering');
+    document.body.classList.add('page-entered');
+  });
+});
+
+/* Logo reveal is handled by CSS (.loaded .hero-line-inner) */
 
 
 /* ─────────────────────────────────────────────────
-   SMOOTH SCROLL ENGINE
+   SCROLL ENGINE — native (sticky cards need it)
 ───────────────────────────────────────────────── */
 
 const wrap = $('scroll-wrap');
-let smoothY = 0;
-let targetY = 0;
-const LERP = 0.08;
-let smoothEnabled = false;
+const smoothEnabled = false;
+
+
+/* ─────────────────────────────────────────────────
+   CUSTOM CURSOR — context-aware states + label
+───────────────────────────────────────────────── */
 
 if (!isTouch) {
-  const contentHeight = wrap.offsetHeight;
+  const cDot = $('c-dot');
+  const cLabel = $('c-label');
+  const cursorStates = ['is-logo', 'is-link', 'is-proj'];
 
-  document.documentElement.classList.add('smooth-scroll');
-  smoothEnabled = true;
+  let cursorX = -200, cursorY = -200;
+  let targetCX = -200, targetCY = -200;
+  const CURSOR_LERP = 0.15;
 
-  const spacer = document.createElement('div');
-  spacer.id = 'scroll-spacer';
-  spacer.style.height = contentHeight + 'px';
-  document.body.appendChild(spacer);
-
-  function setSpacer() {
-    wrap.style.position = 'static';
-    spacer.style.height = '0px';
-    const h = wrap.offsetHeight;
-    wrap.style.position = '';
-    spacer.style.height = h + 'px';
+  function setCursorState(state, label) {
+    cursorStates.forEach(s => cDot.classList.remove(s));
+    if (state) cDot.classList.add(state);
+    if (cLabel) cLabel.textContent = label || '';
   }
 
-  window.addEventListener('resize', setSpacer);
-  $$('img[loading="lazy"]').forEach(img => {
-    img.addEventListener('load', setSpacer, { once: true });
+  document.addEventListener('mousemove', e => {
+    targetCX = e.clientX;
+    targetCY = e.clientY;
   });
-  window.addEventListener('load', setSpacer);
 
-  window.addEventListener('scroll', () => {
-    targetY = window.scrollY;
-  }, { passive: true });
+  // Lerp loop — cursor smoothly follows mouse
+  (function cursorLoop() {
+    cursorX += (targetCX - cursorX) * CURSOR_LERP;
+    cursorY += (targetCY - cursorY) * CURSOR_LERP;
+    cDot.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+    requestAnimationFrame(cursorLoop);
+  })();
 
-  targetY = window.scrollY;
-  smoothY = targetY;
-}
+  // Logo — large inverted disc
+  const logo = $('logo');
+  if (logo) {
+    logo.addEventListener('mouseenter', () => setCursorState('is-logo'));
+    logo.addEventListener('mouseleave', () => setCursorState(null));
+  }
 
-if (prefersReducedMotion && smoothEnabled) {
-  smoothEnabled = false;
-  document.documentElement.classList.remove('smooth-scroll');
-  const spacer = $('scroll-spacer');
-  if (spacer) spacer.remove();
+  // Project slides — subtle link cursor
+  $$('.proj-slide').forEach(el => {
+    el.addEventListener('mouseenter', () => setCursorState('is-link'));
+    el.addEventListener('mouseleave', () => setCursorState(null));
+  });
+
+  // Links, buttons — small ring
+  $$('a:not(.proj-slide):not(.nav-dot), button, .em-link, .ft-link').forEach(el => {
+    el.addEventListener('mouseenter', () => setCursorState('is-link'));
+    el.addEventListener('mouseleave', () => setCursorState(null));
+  });
 }
 
 
 /* ─────────────────────────────────────────────────
-   CUSTOM CURSOR
+   LOGO — split into letters + magnetic hover
 ───────────────────────────────────────────────── */
 
-let mx = -200, my = -200;
+const logoEl = $('logo');
+if (logoEl && !isTouch && !prefersReducedMotion) {
+  const text = logoEl.textContent.trim();
+  logoEl.innerHTML = '';
+  const chars = [];
 
-if (!isTouch) {
-  const cDot  = $('c-dot');
-  const cRing = $('c-ring');
+  for (let i = 0; i < text.length; i++) {
+    const span = document.createElement('span');
+    span.className = 'logo-char';
+    span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+    logoEl.appendChild(span);
+    chars.push(span);
+  }
 
-  let rx = -200, ry = -200;
+  let logoHovered = false;
+  let mouseX = 0, mouseY = 0;
+
+  logoEl.addEventListener('mouseenter', () => { logoHovered = true; tick(); });
+  logoEl.addEventListener('mouseleave', () => {
+    logoHovered = false;
+    chars.forEach(c => { c.style.transform = ''; });
+  });
 
   document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    cDot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 
-  (function animRing() {
-    if (pageVisible) {
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      cRing.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+  function tick() {
+    if (!logoHovered) return;
+
+    for (const char of chars) {
+      const rect = char.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = mouseX - cx;
+      const dy = mouseY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const strength = Math.max(0, 1 - dist / 250);
+      char.style.transform = `translate(${dx * strength * 0.12}px, ${dy * strength * 0.15}px)`;
     }
-    requestAnimationFrame(animRing);
-  })();
 
-  $$('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('is-link'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('is-link'));
-  });
-
-  let scrollRingTimer = null;
-  window.addEventListener('scroll', () => {
-    document.body.classList.add('is-scrolling');
-    if (scrollRingTimer) clearTimeout(scrollRingTimer);
-    scrollRingTimer = setTimeout(() => {
-      document.body.classList.remove('is-scrolling');
-    }, 300);
-  }, { passive: true });
+    requestAnimationFrame(tick);
+  }
 }
 
 
@@ -163,7 +186,7 @@ $$('.reveal').forEach(el => revealObserver.observe(el));
 const parallaxEls = $$('[data-speed]');
 
 function updateParallax() {
-  if (prefersReducedMotion) return;
+  if (prefersReducedMotion || parallaxEls.length === 0) return;
   const vh = window.innerHeight;
 
   for (const el of parallaxEls) {
@@ -180,28 +203,52 @@ function updateParallax() {
 
 
 /* ─────────────────────────────────────────────────
-   MAIN RENDER LOOP
+   SCROLL HANDLER
 ───────────────────────────────────────────────── */
 
-if (smoothEnabled) {
-  (function renderLoop() {
-    if (pageVisible) {
-      smoothY += (targetY - smoothY) * LERP;
-      if (Math.abs(targetY - smoothY) < 0.5) smoothY = targetY;
+window.addEventListener('scroll', updateParallax, { passive: true });
+updateParallax();
 
-      wrap.style.transform = `translate3d(0, ${-smoothY}px, 0)`;
-      updateParallax();
+
+/* ─────────────────────────────────────────────────
+   STICKY SLIDES — opacity fade + overlay reveal
+───────────────────────────────────────────────── */
+
+const projSlides = $$('.proj-slide');
+
+if (projSlides.length && !prefersReducedMotion) {
+  function updateSlides() {
+    const vh = window.innerHeight;
+
+    for (let i = 0; i < projSlides.length; i++) {
+      const slide = projSlides[i];
+      const rect = slide.getBoundingClientRect();
+
+      // How far the slide has been scrolled past (next card covering it)
+      const coverProgress = Math.max(0, Math.min(1, 1 - (rect.bottom / vh)));
+
+      // Gentle fade + scale as the next slide covers this one
+      const img = slide.querySelector('.proj-slide-img');
+      if (img) {
+        if (coverProgress > 0 && i < projSlides.length - 1) {
+          const fadeOpacity = Math.max(0.25, 0.85 - coverProgress * 0.65);
+          const fadeScale = 1.02 - coverProgress * 0.04;
+          img.style.opacity = fadeOpacity;
+          img.style.transform = `scale(${fadeScale})`;
+        } else if (coverProgress === 0) {
+          img.style.opacity = '';
+          img.style.transform = '';
+        }
+      }
+
+      // Reveal overlay when slide is visible
+      const isInView = rect.top <= vh * 0.3 && rect.bottom >= vh * 0.5;
+      slide.classList.toggle('is-in-view', isInView);
     }
-
-    requestAnimationFrame(renderLoop);
-  })();
-} else {
-  function onNativeScroll() {
-    updateParallax();
   }
 
-  window.addEventListener('scroll', onNativeScroll, { passive: true });
-  onNativeScroll();
+  window.addEventListener('scroll', updateSlides, { passive: true });
+  updateSlides();
 }
 
 
@@ -230,8 +277,9 @@ document.addEventListener('click', e => {
   if (!href || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('#')) return;
 
   e.preventDefault();
+  document.body.classList.remove('page-entered');
   document.body.classList.add('page-leaving');
-  setTimeout(() => { window.location.href = href; }, 350);
+  setTimeout(() => { window.location.href = href; }, 420);
 });
 
 
@@ -244,10 +292,6 @@ if (window.location.hash === '#work') {
   if (workSection) {
     requestAnimationFrame(() => {
       workSection.scrollIntoView({ behavior: 'instant' });
-      if (smoothEnabled) {
-        targetY = window.scrollY;
-        smoothY = targetY;
-      }
       history.replaceState(null, '', window.location.pathname);
     });
   }
@@ -284,13 +328,24 @@ if (!isTouch) {
       const target = $(dot.dataset.section);
       if (!target) return;
       target.scrollIntoView({ behavior: 'smooth' });
-      if (smoothEnabled) {
-        setTimeout(() => {
-          targetY = window.scrollY;
-        }, 50);
-      }
     });
   });
+}
+
+
+/* ─────────────────────────────────────────────────
+   SCROLL INDICATOR — hide on scroll
+───────────────────────────────────────────────── */
+
+const heroScroll = $('hero-scroll');
+if (heroScroll) {
+  let scrollHidden = false;
+  window.addEventListener('scroll', () => {
+    if (!scrollHidden && window.scrollY > 100) {
+      heroScroll.style.opacity = '0';
+      scrollHidden = true;
+    }
+  }, { passive: true });
 }
 
 

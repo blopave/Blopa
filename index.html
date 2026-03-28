@@ -28,7 +28,7 @@
   <meta name="twitter:description" content="Diseño web, desarrollo frontend y música electrónica desde Buenos Aires.">
   <meta name="twitter:image"       content="https://blopa.dev/assets/img/og-image.jpg">
 
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#1a1918">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▸</text></svg>">
@@ -78,7 +78,9 @@
   <div id="grain" aria-hidden="true"></div>
 
   <!-- Custom cursor (hidden on touch) -->
-  <div id="c-dot"></div>
+  <div id="c-dot">
+    <span id="c-label" class="c-label"></span>
+  </div>
   <div id="c-ring"></div>
 
   <nav id="nav-dots" aria-label="Page navigation">
@@ -102,6 +104,11 @@
         </div>
       </div>
 
+      <div class="hero-scroll" id="hero-scroll">
+        <span class="hero-scroll-text">Scroll</span>
+        <div class="hero-scroll-line"></div>
+      </div>
+
       <div class="hero-bottom">
         <span class="hero-role">Creative Developer</span>
         <span class="hero-location">Buenos Aires — <span id="hero-clock"></span></span>
@@ -109,6 +116,7 @@
 
     </section>
 
+    <div class="section-line reveal" aria-hidden="true"></div>
 
     <!-- ══════════════════════════════════════════
          WORK
@@ -116,63 +124,62 @@
     <section id="work" aria-label="Work">
       <div class="work-header reveal">
         <span class="work-label">Selected Work</span>
-        <span class="work-count">05</span>
+        <span class="work-count">06</span>
       </div>
-      <div class="proj-flow">
+      <div class="proj-stack">
 
-        <a class="proj-card proj-card--1 reveal" href="projects/pulz.html">
-          <div class="proj-card-img" data-speed="0.04">
-            <img src="assets/img/projects/pulz.jpg" alt="PULZ" width="1440" height="900" loading="lazy">
-          </div>
-          <div class="proj-card-meta" data-speed="-0.06">
-            <h3 class="proj-card-name">PULZ</h3>
-            <span class="proj-card-type">Plataforma · 2026</span>
+        <a class="proj-slide" href="projects/pulz.html" style="--slide-idx:1">
+          <img class="proj-slide-img" src="assets/img/projects/pulz.jpg" alt="PULZ" width="1440" height="900">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">01 / 06</span>
+            <span class="proj-slide-type">Plataforma</span>
           </div>
         </a>
 
-        <a class="proj-card proj-card--2 reveal" href="projects/beokey.html">
-          <div class="proj-card-img" data-speed="0.06">
-            <img src="assets/img/projects/beokey.jpg" alt="BeOkey" width="1440" height="900" loading="lazy">
-          </div>
-          <div class="proj-card-meta" data-speed="-0.07">
-            <h3 class="proj-card-name">BeOkey</h3>
-            <span class="proj-card-type">Landing Page · 2026</span>
+        <a class="proj-slide" href="projects/beokey.html" style="--slide-idx:2">
+          <img class="proj-slide-img" src="assets/img/projects/beokey.jpg" alt="BeOkey" width="1440" height="900" loading="lazy">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">02 / 06</span>
+            <span class="proj-slide-type">Landing Page</span>
           </div>
         </a>
 
-        <a class="proj-card proj-card--3 reveal" href="projects/indoyoga.html">
-          <div class="proj-card-img" data-speed="0.05">
-            <img src="assets/img/projects/indoyoga.jpg" alt="IndoYoga" width="1440" height="900" loading="lazy">
-          </div>
-          <div class="proj-card-meta" data-speed="-0.065">
-            <h3 class="proj-card-name">IndoYoga</h3>
-            <span class="proj-card-type">Sitio Institucional · 2026</span>
+        <a class="proj-slide" href="projects/indoyoga.html" style="--slide-idx:3">
+          <img class="proj-slide-img" src="assets/img/projects/indoyoga.jpg" alt="IndoYoga" width="1440" height="900" loading="lazy">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">03 / 06</span>
+            <span class="proj-slide-type">Sitio Institucional</span>
           </div>
         </a>
 
-        <a class="proj-card proj-card--4 reveal" href="projects/lavere.html">
-          <div class="proj-card-img" data-speed="0.045">
-            <img src="assets/img/projects/lavere.jpg" alt="La Vere" width="1440" height="900" loading="lazy">
-          </div>
-          <div class="proj-card-meta" data-speed="-0.06">
-            <h3 class="proj-card-name">La Vere</h3>
-            <span class="proj-card-type">Landing Page · 2025</span>
+        <a class="proj-slide" href="projects/lavere.html" style="--slide-idx:4">
+          <img class="proj-slide-img" src="assets/img/projects/lavere.jpg" alt="La Vere" width="1440" height="900" loading="lazy">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">04 / 06</span>
+            <span class="proj-slide-type">Landing Page</span>
           </div>
         </a>
 
-        <a class="proj-card proj-card--5 reveal" href="projects/yaricasanova.html">
-          <div class="proj-card-img" data-speed="0.05">
-            <img src="assets/img/projects/yaricasanova.jpg" alt="Yari Casanova" width="1440" height="900" loading="lazy">
+        <a class="proj-slide" href="projects/yaricasanova.html" style="--slide-idx:5">
+          <img class="proj-slide-img" src="assets/img/projects/yaricasanova.jpg" alt="Yari Casanova" width="1440" height="900" loading="lazy">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">05 / 06</span>
+            <span class="proj-slide-type">Portfolio</span>
           </div>
-          <div class="proj-card-meta" data-speed="-0.065">
-            <h3 class="proj-card-name">Yari Casanova</h3>
-            <span class="proj-card-type">Portfolio de Artista · 2026</span>
+        </a>
+
+        <a class="proj-slide" href="projects/basslayer.html" style="--slide-idx:6">
+          <img class="proj-slide-img" src="assets/img/projects/basslayer.jpg" alt="BassLayer" width="1440" height="900" loading="lazy">
+          <div class="proj-slide-overlay">
+            <span class="proj-slide-num">06 / 06</span>
+            <span class="proj-slide-type">Web App</span>
           </div>
         </a>
 
       </div>
     </section>
 
+    <div class="section-line reveal" aria-hidden="true"></div>
 
     <!-- ══════════════════════════════════════════
          CONTACTO

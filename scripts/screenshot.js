@@ -60,6 +60,24 @@ const PROJECTS = {
     `,
     dismissWait: 3000,
   },
+  basslayer: {
+    path: '/Users/vela/Desktop/BassLayer/preview.html',
+    wait: 4000,
+    detailScroll: 0,
+    dismissIntro: `
+      // Dismiss preloader
+      const pre = document.querySelector('.bl-preloader');
+      if (pre) pre.classList.add('done');
+    `,
+    dismissWait: 2000,
+    // For the detail shot, navigate to Bass view
+    detailAction: `
+      // Click Bass to enter the sections view
+      const bassWord = document.querySelector('.bl-word-bass');
+      if (bassWord) bassWord.click();
+    `,
+    detailActionWait: 2000,
+  },
 };
 
 async function hideOverlays(page) {
@@ -140,6 +158,24 @@ async function captureProject(browser, slug, config) {
     clip: { x: 0, y: 0, width: VIEWPORT.width, height: VIEWPORT.height },
   });
   console.log(`  ${slug}: hero → ${slug}.jpg`);
+
+  // 2a. Run detail action if defined (e.g. navigate to interior view)
+  if (config.detailAction) {
+    await page.evaluate(config.detailAction);
+    const aWait = config.detailActionWait || 1500;
+    await new Promise(r => setTimeout(r, aWait));
+    await hideOverlays(page);
+
+    const detailPath = path.join(OUTPUT_DIR, `${slug}-detail.jpg`);
+    await page.screenshot({
+      path: detailPath,
+      type: 'jpeg',
+      quality: 90,
+    });
+    console.log(`  ${slug}: detail → ${slug}-detail.jpg`);
+    await page.close();
+    return;
+  }
 
   // 2. Prepare for detail: disable smooth scroll, make content static
   await page.evaluate(() => {
