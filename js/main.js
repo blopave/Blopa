@@ -114,6 +114,13 @@ if (logoEl && !isTouch && !prefersReducedMotion) {
     chars.push(span);
   }
 
+  // Terminal cursor — uses the font's own underscore for perfect alignment
+  const cursor = document.createElement('span');
+  cursor.className = 'logo-char terminal-cursor';
+  cursor.textContent = '_';
+  cursor.setAttribute('aria-hidden', 'true');
+  logoEl.appendChild(cursor);
+
   let logoHovered = false;
   let mouseX = 0, mouseY = 0;
 
@@ -144,6 +151,13 @@ if (logoEl && !isTouch && !prefersReducedMotion) {
 
     requestAnimationFrame(tick);
   }
+} else if (logoEl) {
+  // Touch / reduced-motion fallback — still add cursor
+  const cursor = document.createElement('span');
+  cursor.className = 'terminal-cursor';
+  cursor.textContent = '_';
+  cursor.setAttribute('aria-hidden', 'true');
+  logoEl.appendChild(cursor);
 }
 
 
