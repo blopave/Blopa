@@ -5,12 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BeOkey — blo pa/ Portfolio</title>
   <meta name="description" content="BeOkey — Landing page para terapia holística. Proyecto de Pablo Vela.">
+  <link rel="canonical" href="https://blopa.dev/projects/beokey.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://blopa.dev/projects/beokey.html">
+  <meta property="og:title" content="BeOkey — blo pa/ Portfolio">
+  <meta property="og:description" content="BeOkey — Landing page para terapia holística. Proyecto de Pablo Vela.">
+  <meta property="og:image" content="https://blopa.dev/assets/img/projects/beokey.jpg">
+  <meta property="og:image:width" content="1440">
+  <meta property="og:image:height" content="900">
+  <meta property="og:locale" content="es_AR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BeOkey — blo pa/ Portfolio">
+  <meta name="twitter:description" content="BeOkey — Landing page para terapia holística. Proyecto de Pablo Vela.">
+  <meta name="twitter:image" content="https://blopa.dev/assets/img/projects/beokey.jpg">
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Jost:ital,wght@0,300;0,400;1,300&display=swap">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▸</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "name": "BeOkey",
+        "description": "BeOkey — Landing page para terapia holística. Proyecto de Pablo Vela.",
+        "url": "https://blopa.dev/projects/beokey.html",
+        "image": "https://blopa.dev/assets/img/projects/beokey.jpg",
+        "author": {
+          "@type": "Person",
+          "name": "Pablo Vela",
+          "url": "https://blopa.dev"
+        },
+        "dateCreated": "2026"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://blopa.dev/" },
+          { "@type": "ListItem", "position": 2, "name": "BeOkey", "item": "https://blopa.dev/projects/beokey.html" }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="proj-page" style="--proj-accent: #C9A96E;">
 
@@ -74,28 +115,38 @@
       <div class="proj-case-block">
         <h3 class="proj-section-title">Paleta</h3>
         <div class="proj-palette">
+          <div class="proj-swatch" style="background: #7BAE7F;"></div>
           <div class="proj-swatch" style="background: #C9A96E;"></div>
-          <div class="proj-swatch" style="background: #F5F0E8;"></div>
-          <div class="proj-swatch" style="background: #1a1a1a;"></div>
-          <div class="proj-swatch" style="background: #2d2d2d;"></div>
+          <div class="proj-swatch" style="background: #D4849A;"></div>
+          <div class="proj-swatch" style="background: #C9B8DB;"></div>
         </div>
       </div>
       <div class="proj-case-block">
         <h3 class="proj-section-title">Tipografía</h3>
-        <p class="proj-type-sample" style="font-family: 'Cinzel', serif; font-size: 2rem; color: var(--white); font-weight: 700; letter-spacing: -0.02em;">Cinzel + Jost</p>
-        <p class="proj-type-meta">Display · Elegant therapy feel</p>
+        <div class="proj-type-stack">
+          <div class="proj-type-row">
+            <p class="proj-type-sample" style="font-family: 'Cinzel', Georgia, serif; font-size: 1.6rem; color: var(--white); font-weight: 400;">Cinzel</p>
+            <p class="proj-type-meta">Headings · Elegancia</p>
+          </div>
+          <div class="proj-type-row">
+            <p class="proj-type-sample" style="font-family: 'Jost', sans-serif; font-size: 1.6rem; color: var(--white); font-weight: 300; font-style: italic;">Jost</p>
+            <p class="proj-type-meta">Body · Calidez</p>
+          </div>
+        </div>
       </div>
       <div class="proj-case-block">
         <h3 class="proj-section-title">Features</h3>
         <ul class="proj-features">
-          <li>Scroll horizontal entre secciones</li>
-          <li>10 servicios en 3 categorías</li>
-          <li>Parallax cinematográfico con efecto 3D tilt</li>
+          <li>Scroll horizontal entre secciones (desktop)</li>
+          <li>10 terapias en 3 categorías: Espiritual, Energético, Corporal</li>
+          <li>Parallax cinematográfico con efecto 3D tilt y spotlight</li>
+          <li>Paleta dinámica que cambia por categoría de servicio</li>
           <li>Galería carousel con 11 imágenes y autoplay</li>
           <li>Testimonios de clientes</li>
           <li>WhatsApp QR + links directos en cada servicio</li>
-          <li>Paleta dinámica por categoría de servicio</li>
-          <li>Custom cursor con estados de hover</li>
+          <li>SEO con Schema.org JSON-LD</li>
+          <li>Navegación por teclado y barra de progreso</li>
+          <li>Glass-morphism cards con textura noise</li>
         </ul>
       </div>
     </div>

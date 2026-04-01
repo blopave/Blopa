@@ -34,7 +34,14 @@ const PROJECTS = {
   beokey: {
     path: '/Users/vela/Desktop/BeOkey/index.html',
     wait: 2500,
-    detailScroll: 2500,
+    detailScroll: 0,
+    detailAction: `
+      // BeOkey uses horizontal scroll via translateX on .horizontal-container
+      // Scroll to the about/services section by clicking nav link
+      const aboutLink = document.querySelector('a[href="#sobre-mi"]');
+      if (aboutLink) aboutLink.click();
+    `,
+    detailActionWait: 2000,
   },
   indoyoga: {
     path: '/Users/vela/Desktop/IndoYoga/index.html',

@@ -13,6 +13,7 @@ document.addEventListener('visibilitychange', () => {
   pageVisible = !document.hidden;
 });
 
+let ticking = false;
 const isTouch = window.matchMedia('(pointer: coarse)').matches;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -69,6 +70,7 @@ if (!isTouch) {
 
   // Lerp loop — cursor smoothly follows mouse
   (function cursorLoop() {
+    if (!pageVisible) { requestAnimationFrame(cursorLoop); return; }
     cursorX += (targetCX - cursorX) * CURSOR_LERP;
     cursorY += (targetCY - cursorY) * CURSOR_LERP;
     cDot.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
@@ -220,7 +222,18 @@ function updateParallax() {
    SCROLL HANDLER
 ───────────────────────────────────────────────── */
 
-window.addEventListener('scroll', updateParallax, { passive: true });
+function onScroll() {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      updateParallax();
+      updateSlides();
+      ticking = false;
+    });
+    ticking = true;
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
 updateParallax();
 
 
@@ -229,9 +242,10 @@ updateParallax();
 ───────────────────────────────────────────────── */
 
 const projSlides = $$('.proj-slide');
+let updateSlides = () => {};
 
 if (projSlides.length && !prefersReducedMotion) {
-  function updateSlides() {
+  updateSlides = function() {
     const vh = window.innerHeight;
 
     for (let i = 0; i < projSlides.length; i++) {
@@ -261,7 +275,6 @@ if (projSlides.length && !prefersReducedMotion) {
     }
   }
 
-  window.addEventListener('scroll', updateSlides, { passive: true });
   updateSlides();
 }
 
@@ -335,6 +348,7 @@ if (!isTouch) {
   });
 
   sections.forEach(section => dotObserver.observe(section));
+  window.addEventListener('beforeunload', () => { dotObserver.disconnect(); });
 
   navDots.forEach(dot => {
     dot.addEventListener('click', e => {
@@ -379,5 +393,6 @@ if (heroClock) {
     heroClock.textContent = now;
   }
   updateClock();
-  setInterval(updateClock, 30000);
+  const clockId = setInterval(updateClock, 30000);
+  window.addEventListener('beforeunload', () => clearInterval(clockId));
 }
