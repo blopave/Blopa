@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blopa.dev/sitemap.xml
+Sitemap: https://blopavela.com/sitemap.xml
