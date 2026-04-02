@@ -113,3 +113,11 @@ document.addEventListener('click', e => {
   document.body.classList.add('page-leaving');
   setTimeout(() => { window.location.href = href; }, 420);
 });
+
+/* bfcache restore — reset page visibility when navigating back */
+window.addEventListener('pageshow', e => {
+  if (e.persisted) {
+    document.body.classList.remove('page-leaving');
+    document.body.classList.add('page-entered');
+  }
+});
