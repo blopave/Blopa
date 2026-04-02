@@ -193,6 +193,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 });
 
 $$('.reveal').forEach(el => revealObserver.observe(el));
+window.addEventListener('beforeunload', () => revealObserver.disconnect());
 
 
 /* ─────────────────────────────────────────────────
@@ -393,6 +394,6 @@ if (heroClock) {
     heroClock.textContent = now;
   }
   updateClock();
-  const clockId = setInterval(updateClock, 30000);
+  const clockId = setInterval(updateClock, 1000);
   window.addEventListener('beforeunload', () => clearInterval(clockId));
 }

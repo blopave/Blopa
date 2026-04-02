@@ -85,6 +85,34 @@ const PROJECTS = {
     `,
     detailActionWait: 2000,
   },
+  sopla: {
+    path: '/Users/vela/Desktop/Sopla/index.html',
+    wait: 3000,
+    dismissIntro: `
+      // Center the hero content vertically for a better thumbnail
+      var pane0 = document.querySelector('.pane-0');
+      if (pane0) pane0.style.alignItems = 'center';
+      // Hide theme toggle for cleaner shot
+      var theme = document.getElementById('themeToggle');
+      if (theme) theme.style.display = 'none';
+    `,
+    dismissWait: 500,
+    detailScroll: 0,
+    detailAction: `
+      // Select Buenos Aires province to navigate to spots list
+      var bsas = document.querySelector('[data-province="bsas"]');
+      if (bsas) bsas.click();
+
+      // After transition, expand pane-1 to full width and hide pane-0
+      setTimeout(function() {
+        var p0 = document.getElementById('pane0');
+        if (p0) p0.style.display = 'none';
+        var inner = document.querySelector('.pane-1-inner');
+        if (inner) { inner.style.maxWidth = '100%'; }
+      }, 1200);
+    `,
+    detailActionWait: 3500,
+  },
 };
 
 async function hideOverlays(page) {
