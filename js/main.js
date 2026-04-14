@@ -51,7 +51,7 @@ const smoothEnabled = false;
 if (!isTouch) {
   const cDot = $('c-dot');
   const cLabel = $('c-label');
-  const cursorStates = ['is-logo', 'is-link', 'is-proj'];
+  const cursorStates = ['is-logo', 'is-link'];
 
   let cursorX = -200, cursorY = -200;
   let targetCX = -200, targetCY = -200;
@@ -220,12 +220,41 @@ function updateParallax() {
 
 
 /* ─────────────────────────────────────────────────
+   HERO PARALLAX EXIT — logo drifts up + fades on scroll
+───────────────────────────────────────────────── */
+
+const heroCenter = $('hero-center');
+const heroBottom = document.querySelector('.hero-bottom');
+const heroSection = $('hero');
+
+function updateHeroParallax() {
+  if (prefersReducedMotion || !heroCenter || !heroSection) return;
+
+  const scrollY = window.scrollY;
+  const heroH = heroSection.offsetHeight;
+  const progress = Math.min(1, scrollY / (heroH * 0.6));
+
+  const yShift = progress * -80;
+  const opacity = 1 - progress * 1.2;
+
+  heroCenter.style.transform = `translateY(${yShift}px)`;
+  heroCenter.style.opacity = Math.max(0, opacity);
+
+  if (heroBottom) {
+    heroBottom.style.transform = `translateY(${yShift * 0.4}px)`;
+    heroBottom.style.opacity = Math.max(0, opacity);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────
    SCROLL HANDLER
 ───────────────────────────────────────────────── */
 
 function onScroll() {
   if (!ticking) {
     requestAnimationFrame(() => {
+      updateHeroParallax();
       updateParallax();
       updateSlides();
       ticking = false;
@@ -252,27 +281,51 @@ if (projSlides.length && !prefersReducedMotion) {
     for (let i = 0; i < projSlides.length; i++) {
       const slide = projSlides[i];
       const rect = slide.getBoundingClientRect();
-
-      // How far the slide has been scrolled past (next card covering it)
-      const coverProgress = Math.max(0, Math.min(1, 1 - (rect.bottom / vh)));
-
-      // Gentle fade + scale as the next slide covers this one
       const img = slide.querySelector('.proj-slide-img');
+      const overlay = slide.querySelector('.proj-slide-overlay');
+
+      // ── Reveal progress: 0 (entering) → 1 (card fills screen) ──
+      // Starts when top of slide hits 60% of viewport,
+      // completes when top reaches 0 (card stuck at top, full screen)
+      const revealStart = vh * 0.6;    // reveal begins here
+      const revealEnd   = 0;           // fully revealed when pinned at top
+      const revealProgress = Math.max(0, Math.min(1,
+        (revealStart - rect.top) / (revealStart - revealEnd)
+      ));
+
+      // ── Clip-path + scale driven by scroll (marcado) ──
       if (img) {
+        const inset = 30 * (1 - revealProgress);          // 30% → 0%
+        const scale = 1.25 - 0.23 * revealProgress;       // 1.25 → 1.02
+        const brightness = 0.4 + 0.52 * revealProgress;   // .4 → .92
+
+        // How far the slide has been scrolled past (next card covering it)
+        const coverProgress = Math.max(0, Math.min(1, 1 - (rect.bottom / vh)));
+
         if (coverProgress > 0 && i < projSlides.length - 1) {
-          const fadeOpacity = Math.max(0.25, 0.85 - coverProgress * 0.65);
-          const fadeScale = 1.02 - coverProgress * 0.04;
+          const fadeOpacity = Math.max(0.15, 0.9 - coverProgress * 0.75);
+          const fadeScale = scale - coverProgress * 0.06;
+          img.style.clipPath = `inset(0%)`;
           img.style.opacity = fadeOpacity;
           img.style.transform = `scale(${fadeScale})`;
-        } else if (coverProgress === 0) {
-          img.style.opacity = '';
-          img.style.transform = '';
+          img.style.filter = `brightness(${brightness})`;
+        } else {
+          img.style.clipPath = `inset(${inset}%)`;
+          img.style.opacity = revealProgress > 0 ? 0.9 : '';
+          img.style.transform = `scale(${scale})`;
+          img.style.filter = `brightness(${brightness})`;
         }
       }
 
-      // Reveal overlay when slide is visible
-      const isInView = rect.top <= vh * 0.3 && rect.bottom >= vh * 0.5;
-      slide.classList.toggle('is-in-view', isInView);
+      // ── Overlay: fade + slide tied to scroll ──
+      if (overlay) {
+        // Overlay starts appearing after 50% of reveal, completes at 100%
+        const overlayProgress = Math.max(0, Math.min(1,
+          (revealProgress - 0.5) / 0.5
+        ));
+        overlay.style.opacity = overlayProgress;
+        overlay.style.transform = `translateY(${24 * (1 - overlayProgress)}px)`;
+      }
     }
   }
 
@@ -297,6 +350,8 @@ if (emLink) {
    PAGE TRANSITIONS
 ───────────────────────────────────────────────── */
 
+const pageTransition = $('page-transition');
+
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
   if (!link) return;
@@ -305,15 +360,20 @@ document.addEventListener('click', e => {
   if (!href || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('#')) return;
 
   e.preventDefault();
-  document.body.classList.remove('page-entered');
-  document.body.classList.add('page-leaving');
-  setTimeout(() => { window.location.href = href; }, 420);
+
+  if (pageTransition) {
+    pageTransition.classList.add('is-covering');
+    setTimeout(() => { window.location.href = href; }, 620);
+  } else {
+    window.location.href = href;
+  }
 });
 
 /* bfcache restore — reset page visibility when navigating back */
 window.addEventListener('pageshow', e => {
-  if (e.persisted) {
-    document.body.classList.remove('page-leaving');
+  if (e.persisted && pageTransition) {
+    pageTransition.classList.remove('is-covering');
+    document.body.classList.remove('page-entering');
     document.body.classList.add('page-entered');
   }
 });

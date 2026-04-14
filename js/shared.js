@@ -41,7 +41,7 @@ if (!isTouch) {
   const cDot = $('c-dot');
 
   if (cDot) {
-    const cursorStates = ['is-logo', 'is-link', 'is-proj'];
+    const cursorStates = ['is-logo', 'is-link'];
 
     function setCursorState(state) {
       cursorStates.forEach(s => cDot.classList.remove(s));
@@ -101,6 +101,8 @@ if (!prefersReducedMotion) {
    PAGE TRANSITIONS  — smooth fade between pages
 ───────────────────────────────────────────────── */
 
+const pageTransition = $('page-transition');
+
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
   if (!link) return;
@@ -109,15 +111,20 @@ document.addEventListener('click', e => {
   if (!href || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('#')) return;
 
   e.preventDefault();
-  document.body.classList.remove('page-entered');
-  document.body.classList.add('page-leaving');
-  setTimeout(() => { window.location.href = href; }, 420);
+
+  if (pageTransition) {
+    pageTransition.classList.add('is-covering');
+    setTimeout(() => { window.location.href = href; }, 620);
+  } else {
+    window.location.href = href;
+  }
 });
 
 /* bfcache restore — reset page visibility when navigating back */
 window.addEventListener('pageshow', e => {
-  if (e.persisted) {
-    document.body.classList.remove('page-leaving');
+  if (e.persisted && pageTransition) {
+    pageTransition.classList.remove('is-covering');
+    document.body.classList.remove('page-entering');
     document.body.classList.add('page-entered');
   }
 });
