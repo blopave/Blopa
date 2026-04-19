@@ -19,5 +19,8 @@
   "homepage": "https://github.com/blopave/Blopa#readme",
   "dependencies": {
     "puppeteer": "^24.39.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
   }
 }

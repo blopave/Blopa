@@ -75,12 +75,6 @@
   <!-- Page transition overlay -->
   <div class="page-transition" id="page-transition" aria-hidden="true"></div>
 
-  <!-- Gradient mesh background -->
-  <div class="gradient-mesh" aria-hidden="true">
-    <div class="gradient-mesh__blob gradient-mesh__blob--1"></div>
-    <div class="gradient-mesh__blob gradient-mesh__blob--2"></div>
-    <div class="gradient-mesh__blob gradient-mesh__blob--3"></div>
-  </div>
 
   <!-- Animated grain overlay -->
   <div id="grain" aria-hidden="true"></div>
@@ -97,6 +91,14 @@
     <a class="nav-dot" href="#contacto" data-section="contacto"><span class="sr-only">Contacto</span></a>
   </nav>
 
+  <!-- Fixed project indicator — visible during work section -->
+  <div id="proj-indicator" class="proj-indicator" aria-hidden="true">
+    <span class="proj-indicator-name" id="proj-ind-name"></span>
+    <span class="proj-indicator-divider">—</span>
+    <span class="proj-indicator-type" id="proj-ind-type"></span>
+    <span class="proj-indicator-num" id="proj-ind-num"></span>
+  </div>
+
   <main id="scroll-wrap">
 
     <!-- ══════════════════════════════════════════
@@ -104,7 +106,7 @@
          ══════════════════════════════════════════ -->
     <section id="hero" class="hero-section" aria-label="Home">
 
-      <div class="hero-center" id="hero-center">
+      <div class="hero-center">
         <div class="hero-line">
           <div class="logo-wrap">
             <h1 id="logo" class="hero-line-inner">blo pa/</h1>
@@ -136,81 +138,39 @@
       </div>
       <div class="proj-stack">
 
-        <a class="proj-slide" href="projects/pulz.html" style="--slide-idx:1; --proj-accent:#DEFF00">
+        <a class="proj-slide" href="projects/pulz.html" style="--slide-idx:1; --proj-accent:#DEFF00"
+           data-name="PULZ" data-type="Plataforma" data-num="01">
           <img class="proj-slide-img" src="assets/img/projects/pulz.jpg" alt="PULZ" width="1440" height="900">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">PULZ</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">01 / 07</span>
-              <span class="proj-slide-type">Plataforma</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/beokey.html" style="--slide-idx:2; --proj-accent:#C9A96E">
+        <a class="proj-slide" href="projects/beokey.html" style="--slide-idx:2; --proj-accent:#C9A96E"
+           data-name="BeOkey" data-type="Landing Page" data-num="02">
           <img class="proj-slide-img" src="assets/img/projects/beokey.jpg" alt="BeOkey" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">BeOkey</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">02 / 07</span>
-              <span class="proj-slide-type">Landing Page</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/indoyoga.html" style="--slide-idx:3; --proj-accent:#B8704A">
+        <a class="proj-slide" href="projects/indoyoga.html" style="--slide-idx:3; --proj-accent:#B8704A"
+           data-name="IndoYoga" data-type="Sitio Institucional" data-num="03">
           <img class="proj-slide-img" src="assets/img/projects/indoyoga.jpg" alt="IndoYoga" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">IndoYoga</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">03 / 07</span>
-              <span class="proj-slide-type">Sitio Institucional</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/lavere.html" style="--slide-idx:4; --proj-accent:#B8A96E">
+        <a class="proj-slide" href="projects/lavere.html" style="--slide-idx:4; --proj-accent:#B8A96E"
+           data-name="La Vere" data-type="Landing Page" data-num="04">
           <img class="proj-slide-img" src="assets/img/projects/lavere.jpg" alt="La Vere" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">La Vere</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">04 / 07</span>
-              <span class="proj-slide-type">Landing Page</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/yaricasanova.html" style="--slide-idx:5; --proj-accent:#e63946">
+        <a class="proj-slide" href="projects/yaricasanova.html" style="--slide-idx:5; --proj-accent:#e63946"
+           data-name="Yari Casanova" data-type="Portfolio" data-num="05">
           <img class="proj-slide-img" src="assets/img/projects/yaricasanova.jpg" alt="Yari Casanova" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">Yari Casanova</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">05 / 07</span>
-              <span class="proj-slide-type">Portfolio</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/basslayer.html" style="--slide-idx:6; --proj-accent:#00FF88">
+        <a class="proj-slide" href="projects/basslayer.html" style="--slide-idx:6; --proj-accent:#00FF88"
+           data-name="BassLayer" data-type="Web App" data-num="06">
           <img class="proj-slide-img" src="assets/img/projects/basslayer.jpg" alt="BassLayer" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">BassLayer</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">06 / 07</span>
-              <span class="proj-slide-type">Web App</span>
-            </div>
-          </div>
         </a>
 
-        <a class="proj-slide" href="projects/sopla.html" style="--slide-idx:7; --proj-accent:#2EC4B6">
+        <a class="proj-slide" href="projects/sopla.html" style="--slide-idx:7; --proj-accent:#2EC4B6"
+           data-name="Sopla" data-type="Web App / PWA" data-num="07">
           <img class="proj-slide-img" src="assets/img/projects/sopla.jpg" alt="Sopla" width="1440" height="900" loading="lazy">
-          <div class="proj-slide-overlay">
-            <span class="proj-slide-name">Sopla</span>
-            <div class="proj-slide-meta">
-              <span class="proj-slide-num">07 / 07</span>
-              <span class="proj-slide-type">Web App / PWA</span>
-            </div>
-          </div>
         </a>
 
       </div>

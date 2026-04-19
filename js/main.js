@@ -274,58 +274,85 @@ updateParallax();
 const projSlides = $$('.proj-slide');
 let updateSlides = () => {};
 
+const _indEl   = $('proj-indicator');
+const _indName = $('proj-ind-name');
+const _indType = $('proj-ind-type');
+const _indNum  = $('proj-ind-num');
+let _indCurrent = -1;
+const _indTotal = projSlides.length;
+
 if (projSlides.length && !prefersReducedMotion) {
   updateSlides = function() {
     const vh = window.innerHeight;
 
+    // ── 1. Find the frontmost pinned slide (topmost z-index whose top <= 0) ──
+    let activeIdx = -1;
+    for (let i = projSlides.length - 1; i >= 0; i--) {
+      const top = projSlides[i].getBoundingClientRect().top;
+      if (top <= 0) { activeIdx = i; break; }
+    }
+
+    // ── 2. Animate all slides ──
     for (let i = 0; i < projSlides.length; i++) {
       const slide = projSlides[i];
       const rect = slide.getBoundingClientRect();
       const img = slide.querySelector('.proj-slide-img');
-      const overlay = slide.querySelector('.proj-slide-overlay');
 
-      // ── Reveal progress: 0 (entering) → 1 (card fills screen) ──
-      // Starts when top of slide hits 60% of viewport,
-      // completes when top reaches 0 (card stuck at top, full screen)
-      const revealStart = vh * 0.6;    // reveal begins here
-      const revealEnd   = 0;           // fully revealed when pinned at top
-      const revealProgress = Math.max(0, Math.min(1,
-        (revealStart - rect.top) / (revealStart - revealEnd)
-      ));
+      // Reveal: 0 when top is at 60vh → 1 when top reaches 0
+      const revealProgress = Math.max(0, Math.min(1, 1 - rect.top / (vh * 0.6)));
 
-      // ── Clip-path + scale driven by scroll (marcado) ──
-      if (img) {
-        const inset = 30 * (1 - revealProgress);          // 30% → 0%
-        const scale = 1.25 - 0.23 * revealProgress;       // 1.25 → 1.02
-        const brightness = 0.4 + 0.52 * revealProgress;   // .4 → .92
+      if (!img) continue;
 
-        // How far the slide has been scrolled past (next card covering it)
-        const coverProgress = Math.max(0, Math.min(1, 1 - (rect.bottom / vh)));
+      const inset = 30 * (1 - revealProgress);
+      const scale = 1.25 - 0.23 * revealProgress;
+      const brightness = 0.4 + 0.52 * revealProgress;
 
-        if (coverProgress > 0 && i < projSlides.length - 1) {
-          const fadeOpacity = Math.max(0.15, 0.9 - coverProgress * 0.75);
-          const fadeScale = scale - coverProgress * 0.06;
-          img.style.clipPath = `inset(0%)`;
-          img.style.opacity = fadeOpacity;
-          img.style.transform = `scale(${fadeScale})`;
-          img.style.filter = `brightness(${brightness})`;
-        } else {
-          img.style.clipPath = `inset(${inset}%)`;
-          img.style.opacity = revealProgress > 0 ? 0.9 : '';
-          img.style.transform = `scale(${scale})`;
-          img.style.filter = `brightness(${brightness})`;
-        }
+      // Cover: how much the next card is covering this one
+      const cover = Math.max(0, Math.min(1, 1 - rect.bottom / vh));
+
+      if (cover > 0 && i < projSlides.length - 1) {
+        img.style.clipPath = 'inset(0%)';
+        img.style.opacity = Math.max(0.15, 0.9 - cover * 0.75);
+        img.style.transform = `scale(${scale - cover * 0.06})`;
+        img.style.filter = `brightness(${brightness})`;
+      } else {
+        img.style.clipPath = `inset(${inset}%)`;
+        img.style.opacity = revealProgress > 0 ? 0.9 : '';
+        img.style.transform = `scale(${scale})`;
+        img.style.filter = `brightness(${brightness})`;
       }
+    }
 
-      // ── Overlay: fade + slide tied to scroll ──
-      if (overlay) {
-        // Overlay starts appearing after 50% of reveal, completes at 100%
-        const overlayProgress = Math.max(0, Math.min(1,
-          (revealProgress - 0.5) / 0.5
-        ));
-        overlay.style.opacity = overlayProgress;
-        overlay.style.transform = `translateY(${24 * (1 - overlayProgress)}px)`;
-      }
+    // ── 3. Indicator synced to active slide ──
+    if (!_indEl) return;
+
+    if (activeIdx < 0) {
+      _indEl.style.opacity = 0;
+      _indEl.style.transform = 'translateY(-14px)';
+      _indCurrent = -1;
+      return;
+    }
+
+    const activeSlide = projSlides[activeIdx];
+    const activeRect = activeSlide.getBoundingClientRect();
+    const reveal = Math.max(0, Math.min(1, 1 - activeRect.top / (vh * 0.6)));
+    const cover = Math.max(0, Math.min(1, 1 - activeRect.bottom / vh));
+
+    // Indicator fades in with card reveal (40%→80%), fades out when covered
+    const fadeIn = Math.max(0, Math.min(1, (reveal - 0.4) / 0.4));
+    const fadeOut = 1 - Math.max(0, cover * 3);
+    const eased = 1 - Math.pow(1 - fadeIn, 2.5);
+    const opacity = Math.max(0, Math.min(eased, fadeOut));
+
+    _indEl.style.opacity = opacity;
+    _indEl.style.transform = `translateY(${(1 - eased) * -14}px)`;
+
+    // Update text when slide changes
+    if (activeIdx !== _indCurrent) {
+      _indName.textContent = activeSlide.dataset.name;
+      _indType.textContent = activeSlide.dataset.type;
+      _indNum.textContent  = activeSlide.dataset.num + ' / ' + String(_indTotal).padStart(2, '0');
+      _indCurrent = activeIdx;
     }
   }
 
@@ -465,3 +492,5 @@ if (heroClock) {
   const clockId = setInterval(updateClock, 1000);
   window.addEventListener('beforeunload', () => clearInterval(clockId));
 }
+
+
