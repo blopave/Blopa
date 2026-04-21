@@ -1042,13 +1042,21 @@ img.is-loaded {
   border-radius: 2px;
 }
 
-.proj-status-badge::before {
+.proj-status-badge--wip::before {
   content: '';
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--dim);
+  background: var(--mid);
   animation: pulse 2s ease infinite;
+}
+
+.proj-status-badge--done::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--off);
 }
 
 @keyframes pulse {
@@ -1113,20 +1121,20 @@ img.is-loaded {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--proj-accent, var(--white));
+  color: var(--white);
   font-family: var(--font-mono);
   font-size: .75rem;
   letter-spacing: .15em;
   text-transform: uppercase;
   text-decoration: none;
   padding: 10px 20px;
-  border: 1px solid var(--proj-accent, var(--white));
+  border: 1px solid var(--white);
   border-radius: 2px;
   transition: background .3s ease, color .3s ease;
 }
 
 .proj-visit-link:hover {
-  background: var(--proj-accent, var(--white));
+  background: var(--white);
   color: var(--black);
 }
 
