@@ -369,7 +369,7 @@ if (emLink) {
   emLink.innerHTML =
     '<span class="em-user">blopave</span>' +
     '<span class="em-at">@</span>' +
-    '<span class="em-domain">proton.me</span>';
+    '<span class="em-domain">pm.me</span>';
 }
 
 
