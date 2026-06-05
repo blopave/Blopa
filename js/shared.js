@@ -23,12 +23,36 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 document.body.classList.add('loaded');
 
-// Page enter animation
+const TRANSITION_KEY = 'pt-transitioning';
+const TRANSITION_MS = 550;
+const pageTransition = $('page-transition');
+
+/* If we arrived via a curtain navigation, the overlay
+   needs to start in "covering" position (no transition),
+   then animate upward off-screen. */
+const arrivingViaTransition =
+  pageTransition &&
+  !prefersReducedMotion &&
+  sessionStorage.getItem(TRANSITION_KEY) === '1';
+
+if (arrivingViaTransition) {
+  sessionStorage.removeItem(TRANSITION_KEY);
+  pageTransition.classList.add('is-snapped');
+}
+
 document.body.classList.add('page-entering');
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
     document.body.classList.remove('page-entering');
     document.body.classList.add('page-entered');
+
+    if (arrivingViaTransition) {
+      pageTransition.classList.remove('is-snapped');
+      pageTransition.classList.add('is-exiting');
+      setTimeout(() => {
+        pageTransition.classList.remove('is-exiting');
+      }, TRANSITION_MS + 50);
+    }
   });
 });
 
@@ -98,10 +122,8 @@ if (!prefersReducedMotion) {
 
 
 /* ─────────────────────────────────────────────────
-   PAGE TRANSITIONS  — smooth fade between pages
+   PAGE TRANSITIONS  — continuous curtain between pages
 ───────────────────────────────────────────────── */
-
-const pageTransition = $('page-transition');
 
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
@@ -112,9 +134,11 @@ document.addEventListener('click', e => {
 
   e.preventDefault();
 
-  if (pageTransition) {
+  if (pageTransition && !prefersReducedMotion) {
+    sessionStorage.setItem(TRANSITION_KEY, '1');
+    pageTransition.classList.remove('is-exiting', 'is-snapped');
     pageTransition.classList.add('is-covering');
-    setTimeout(() => { window.location.href = href; }, 620);
+    setTimeout(() => { window.location.href = href; }, TRANSITION_MS + 30);
   } else {
     window.location.href = href;
   }
@@ -123,8 +147,33 @@ document.addEventListener('click', e => {
 /* bfcache restore — reset page visibility when navigating back */
 window.addEventListener('pageshow', e => {
   if (e.persisted && pageTransition) {
-    pageTransition.classList.remove('is-covering');
+    sessionStorage.removeItem(TRANSITION_KEY);
+    pageTransition.classList.remove('is-covering', 'is-snapped', 'is-exiting');
     document.body.classList.remove('page-entering');
     document.body.classList.add('page-entered');
   }
+});
+
+
+/* ─────────────────────────────────────────────────
+   PREFETCH prev/next project — warm the cache so the
+   continuous curtain isn't stalled by network on arrival.
+───────────────────────────────────────────────── */
+
+const schedulePrefetch = window.requestIdleCallback
+  ? cb => requestIdleCallback(cb, { timeout: 2000 })
+  : cb => setTimeout(cb, 1200);
+
+schedulePrefetch(() => {
+  ['.proj-nav-prev', '.proj-nav-next'].forEach(sel => {
+    const a = document.querySelector(sel);
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('#')) return;
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'document';
+    link.href = href;
+    document.head.appendChild(link);
+  });
 });

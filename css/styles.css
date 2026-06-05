@@ -62,19 +62,32 @@ body {
 }
 
 
-/* Page transition overlay — clip-path wipe */
+/* Page transition overlay — continuous upward curtain
+   Outgoing: rises from below to cover.  Incoming: continues
+   rising, exiting through the top.  Feels like one panel
+   passing through both pages. */
 .page-transition {
   position: fixed;
   inset: 0;
   background: var(--black);
   z-index: 9998;
   pointer-events: none;
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path .6s cubic-bezier(.77,0,.18,1);
+  transform: translate3d(0, 100%, 0);
+  transition: transform .55s cubic-bezier(.77, 0, .18, 1);
+  will-change: transform;
 }
 
 .page-transition.is-covering {
-  clip-path: inset(0 0 0 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.page-transition.is-snapped {
+  transition: none;
+  transform: translate3d(0, 0, 0);
+}
+
+.page-transition.is-exiting {
+  transform: translate3d(0, -100%, 0);
 }
 
 body.page-entering {
@@ -83,7 +96,7 @@ body.page-entering {
 
 body.page-entered {
   opacity: 1;
-  transition: opacity .5s ease .05s;
+  transition: opacity .35s ease;
 }
 
 body.loaded {
@@ -670,24 +683,15 @@ section {
   justify-content: center;
 }
 
-.ct-label {
+.ct-subtitle {
   display: block;
   color: var(--off);
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.6rem, 3.6vw, 3rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin-bottom: clamp(12px, 2vh, 20px);
-}
-
-.ct-subtitle {
-  display: block;
-  color: var(--dim);
-  font-family: var(--font-mono);
-  font-size: .8rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  margin-bottom: clamp(32px, 6vh, 64px);
+  line-height: 1.1;
+  margin-bottom: clamp(28px, 5vh, 56px);
 }
 
 .em-link {
@@ -716,12 +720,12 @@ section {
 
 .ct-name {
   display: block;
-  color: var(--dim);
+  color: var(--off);
   font-family: var(--font-mono);
-  font-size: .85rem;
-  letter-spacing: .15em;
+  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+  letter-spacing: .12em;
   text-transform: uppercase;
-  margin-top: clamp(24px, 4vh, 48px);
+  margin-top: clamp(28px, 4.5vh, 52px);
 }
 
 /* Footer inside contact */
@@ -771,7 +775,8 @@ section {
   .hero-line-inner,
   #logo             { font-size: clamp(3.5rem, 14vw, 6rem); }
   .em-link          { font-size: clamp(1.8rem, 8vw, 3rem); }
-  .ct-label         { font-size: clamp(1.4rem, 5vw, 2rem); }
+  .ct-subtitle      { font-size: clamp(1.4rem, 5vw, 2rem); }
+  .ct-name          { font-size: clamp(.95rem, 4vw, 1.4rem); }
   #contacto         { min-height: 80vh; }
   .work-label { font-size: clamp(1.6rem, 6vw, 2.4rem); }
   .proj-slide { height: 60vh; }
@@ -1172,11 +1177,15 @@ img.is-loaded {
   margin-bottom: 16px;
 }
 
-/* Preview image */
+/* Preview image — frame defines edge even when the
+   capture's own background is as dark as the page bg
+   (e.g. IndoYoga / Yari).  White at low alpha lifts the
+   border above the page without clashing on bright caps. */
 .proj-preview-img {
   margin-bottom: clamp(40px, 6vh, 72px);
-  border: 1px solid var(--dim2);
+  border: 1px solid rgba(255, 255, 255, .14);
   overflow: hidden;
+  background: rgba(255, 255, 255, .015);
 }
 
 .proj-preview-img img {
